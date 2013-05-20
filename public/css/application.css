@@ -1,9 +1,14 @@
-.container {
-  margin: 20px auto;
-  width: 600px;
-  padding: 0px 20px 20px 20px;
-  border: 1px dotted black;
+html {
+  background: url('../images/back.jpg')
 }
-th {
-  text-align: left;
+
+* {
+  font-family: 'Lato';
+  font-weight: 300;
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  color: #411700;
+  text-decoration: none;
+
 }
