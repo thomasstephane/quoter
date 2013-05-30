@@ -1,4 +1,12 @@
 <div class="container">
-  <h1>Welcome to Quoter!</h1>
+  <% if current_user %>
+    <ul>
+      <% all_user.each do |user| %>
+      <li><%= user.name %></li>
+      <% end %>
+    </ul>
+  <% else %>
+    <h1>Welcome to Quoter!</h1>
+  <% end %>
   <p>Product under development!</p>
 </div>
