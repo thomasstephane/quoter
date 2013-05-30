@@ -1,3 +1,4 @@
 class Person < ActiveRecord::Base
-  # Remember to create a migration!
+  has_many :quotes
+  has_many :products, through: :quotes
 end
