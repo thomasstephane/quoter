@@ -1,0 +1,12 @@
+<div id="quote">
+<h1>Quote </h1>
+
+  <form id="new_quote" method="post" action="/quote">
+    <div class="quote-ref"><input type="text" name="quote[ref]" placeholder="Ref"><span></span></div>
+    <div class="quote-ref"><textarea name="quote[comment]" placeholder="Comment"></textarea><span></span></div>
+    <div class="quote-ref"><input type="date" name="quote[submitted_at]" placeholder="Submitted at" value=<%= @date_default %>><span></span></div>
+    <div class="quote-ref"><input type="date" name="quote[due_at]" placeholder="Due at"><span></span></div>
+    <div class="submit"><input type="submit" value="Continue"></div>
+  </form>
+
+</div>
