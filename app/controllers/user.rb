@@ -1,15 +1,18 @@
 #----------- SESSIONS -----------
 
 post '/session' do
-  login_user(params)
+  content_type :json
+  login_user(params[:user]).to_json
 end
 
 delete '/session' do
   session.clear
-  redirect '/'
 end
 
 #----------- USERS -----------
+post '/user' do
+  create_user(params[:user]).to_json
+end
 
 post '/user/uniq' do
   content_type :json
@@ -19,7 +22,3 @@ post '/user/uniq' do
   check_exist(params[:user]).to_json
 end
 
-post '/user' do
-  create_user(params[:user])
-  redirect '/'
-end

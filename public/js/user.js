@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
   function inputField(field) {
-    return $('#' + field + '-input span');
+    return $('.' + field + '-signup span');
   }
 
   function checkValid(field, errorMsg, context) {
@@ -11,9 +11,9 @@ $(document).ready(function() {
       url: '/user/uniq',
       dataType: 'json',
       data: $(context).serialize()
-    }).done(function(rsp) {
-      console.log("----checkValid for " + field + "----, after ajax with " + rsp[field]);
-      if (rsp[field] === "exist") {
+    }).done(function(data) {
+      console.log("----checkValid for " + field + "----, after ajax with " + data[field]);
+      if (data[field] === "exist") {
         inputField(field).text(errorMsg);
       } else {
         inputField(field).text("");
@@ -23,8 +23,8 @@ $(document).ready(function() {
 
   function valid(name, answer, context) {
     console.log("----valid for " + name + "----");
-    console.log($('#' + name + '-input'));
-    if ($('#' + name + '-input input').val() !== "") {
+    console.log($('.' + name + '-signup'));
+    if ($('.' + name + '-signup input').val() !== "") {
       checkValid(name, answer, context);
     }
   }
@@ -34,6 +34,12 @@ $(document).ready(function() {
     console.log("----in the click event----");
     valid("name", "Name already exist, please choose another one", context);
     valid("email", "Email already taken", context);
+  }
+
+  function blink() {
+    for (i = 0; i < 3 ; i++ ) {
+      $('span').fadeTo(500, 0).fadeTo(500, 1.0);
+    }
   }
 
   $('#sign-up').on("change", function (e) {
@@ -46,19 +52,41 @@ $(document).ready(function() {
     var context = this;
 
     if ($('span').text() === "") {
+        console.log("----in the signup before ajax----");
       $.ajax({
         type: 'post',
         url: '/user',
         dataType: 'json',
-        data: $('#sign-up').serialize()
+        data: $(context).serialize()
       }).done(function() {
+        console.log("----in the signup ajax success----");
         window.location = "/";
       });
     } else {
-      for (i = 0; i < 3 ; i++ ) {
-        $('span').fadeTo(500, 0).fadeTo(500, 1.0);
-      }
+      blink();
     }
+  });
+
+  $('#sign-in').on('submit', function(e){
+    e.preventDefault();
+    $.ajax({
+      type: 'post',
+      url: '/session',
+      dataType: 'json',
+      data: $(this).serialize()
+    }).done(function(data){
+      console.log(data);
+      if (data["status"] === "login") {
+        window.location = "/";
+      } else if (data["name"] === "exist") {
+        $('.password-signin span').text("Wrong password");
+        $('.name-signin span').text("");
+        blink();
+      } else {
+        $('.name-signin span').text("Wrong username");
+        blink();
+      }
+    });
   });
 
   $('#sign-out').on('click', function(e){

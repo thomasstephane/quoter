@@ -16,18 +16,28 @@ helpers do
   end
 
   def login_user(params)
-    @user = User.find_by_email(params[:email])
-    if @user.password = params[:password]
+    @msg = {}
+    check_one_exist(params, "name")
+    if @msg["name"] == "exist"
+      check_password(params)
+    end
+    @msg
+  end
+
+  def check_password(params)
+    if @user.password == params[:password]
       session[:user_id] = @user.id
-      redirect '/'
+      @msg["status"] = "login"
     else
-      redirect '/sessions/new'
+      @msg["status"] = "failed"
     end
   end
 
   def create_user(params)
+    @msg = {}
     @user = User.create(params)
     session[:user_id] = @user.id
+    @msg["status"] = "login"
   end
 
   def check_exist(params)
@@ -39,8 +49,8 @@ helpers do
 
   def check_one_exist(params, key)
     if params[key]
-      search = User.where("#{key} = ?",params[key])[0]
-      if search
+      @user = User.where("#{key} = ?",params[key])[0]
+      if @user
         @msg[key] = "exist"
       else
         @msg[key] = ""
