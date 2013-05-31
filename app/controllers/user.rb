@@ -16,9 +16,6 @@ end
 
 post '/user/uniq' do
   content_type :json
-  puts "in the post uniq"
-  puts params.inspect
-  puts check_exist(params[:user]).inspect
   check_exist(params[:user]).to_json
 end
 

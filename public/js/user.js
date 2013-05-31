@@ -5,14 +5,12 @@ $(document).ready(function() {
   }
 
   function checkValid(field, errorMsg, context) {
-    console.log("----checkValid for " + field + "----" );
     $.ajax({
       type: 'post',
       url: '/user/uniq',
       dataType: 'json',
       data: $(context).serialize()
     }).done(function(data) {
-      console.log("----checkValid for " + field + "----, after ajax with " + data[field]);
       if (data[field] === "exist") {
         inputField(field).text(errorMsg);
       } else {
@@ -22,8 +20,6 @@ $(document).ready(function() {
   }
 
   function valid(name, answer, context) {
-    console.log("----valid for " + name + "----");
-    console.log($('.' + name + '-signup'));
     if ($('.' + name + '-signup input').val() !== "") {
       checkValid(name, answer, context);
     }
@@ -31,7 +27,6 @@ $(document).ready(function() {
 
   function validor(e, context) {
     e.preventDefault();
-    console.log("----in the click event----");
     valid("name", "Name already exist, please choose another one", context);
     valid("email", "Email already taken", context);
   }
@@ -52,14 +47,12 @@ $(document).ready(function() {
     var context = this;
 
     if ($('span').text() === "") {
-        console.log("----in the signup before ajax----");
       $.ajax({
         type: 'post',
         url: '/user',
         dataType: 'json',
         data: $(context).serialize()
       }).done(function() {
-        console.log("----in the signup ajax success----");
         window.location = "/";
       });
     } else {

@@ -4,30 +4,25 @@
   <button id="sign-out" >Logout</button>
   <% else %>
 
-  <h1>Sign In</h1>
+    <div id="sign-in-form">
+    <h1>Sign In</h1>
 
-  <% if @error %>
-  <div class="errors"><%= @error %></div>
+      <form id="sign-in" method="post" action="/session">
+        <div class="name-signin"><input type="text" name="user[name]" placeholder="username" ><span></span></div>
+        <div class="password-signin"><input type="password" name="user[password]" placeholder="Password,8 or more characters"><span></span></div>
+        <div class="submit"><input type="submit" value="Sign In"></div>
+      </form>
+
+    </div>
+    <div id="sign-up-form">
+      <h1 class="blink">Sign Up</h1>
+
+      <form id="sign-up" method="post" action="/users">
+        <div class="name-signup"><input type="text" name="user[name]" placeholder="username" ><span></span></div>
+        <div class="email-signup"><input type="email" name="user[email]" placeholder="email" ><span></span></div>
+        <input type="password" name="user[password]" placeholder="Password,8 or more characters">
+        <div class="submit"><input type="submit" value="Sign Up"></div>
+      </form>
+    </div>
   <% end %>
-
-  <div id="sign-in-form">
-    <form id="sign-in" method="post" action="/session">
-      <div class="name-signin"><input type="text" name="user[name]" placeholder="username" ><span></span></div>
-      <div class="password-signin"><input type="password" name="user[password]" placeholder="Password,8 or more characters"><span></span></div>
-      <div class="submit"><input type="submit" value="Sign In"></div>
-    </form>
-
-  </div>
-  <div id="sign-up-form">
-    <h1 class="blink">Sign Up</h1>
-
-    <form id="sign-up" method="post" action="/users">
-      <div class="name-signup"><input type="text" name="user[name]" placeholder="username" ><span></span></div>
-      <div class="email-signup"><input type="email" name="user[email]" placeholder="email" ><span></span></div>
-      <input type="password" name="user[password]" placeholder="Password,8 or more characters">
-      <div class="submit"><input type="submit" value="Sign Up"></div>
-    </form>
-    <% end %>
-
-  </div>
 </div>
