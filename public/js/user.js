@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+  function inputField(field) {
+    return $('#' + field + '-input span');
+  }
+
   function checkValid(field, errorMsg, context) {
     console.log("----checkValid for " + field + "----" );
     $.ajax({
@@ -10,34 +14,62 @@ $(document).ready(function() {
     }).done(function(rsp) {
       console.log("----checkValid for " + field + "----, after ajax with " + rsp[field]);
       if (rsp[field] === "exist") {
-        $('#' + field + '-input span').text(errorMsg);
+        inputField(field).text(errorMsg);
       } else {
-        $('#' + field + '-input span').text("");        
+        inputField(field).text("");
       }
     });
   }
 
-  // function validor(e, context) {
-  //   e.preventDefault();
-  //   console.log("----in the click event----");
-  //   checkValid("name", "Name already exist, please choose another one", context);
-  //   checkValid("email", "Email already taken", context);
-  // }
+  function valid(name, answer, context) {
+    console.log("----valid for " + name + "----");
+    console.log($('#' + name + '-input'));
+    if ($('#' + name + '-input input').val() !== "") {
+      checkValid(name, answer, context);
+    }
+  }
 
-  $('#sign-up').on("click", function (e) {
-    var context = this;
+  function validor(e, context) {
     e.preventDefault();
     console.log("----in the click event----");
-    checkValid("name", "Name already exist, please choose another one", context);
-    checkValid("email", "Email already taken", context);
-  });
+    valid("name", "Name already exist, please choose another one", context);
+    valid("email", "Email already taken", context);
+  }
 
   $('#sign-up').on("change", function (e) {
     var context = this;
+    validor(e, context);
+  });
+
+  $('#sign-up').on('submit', function (e) {
     e.preventDefault();
-    console.log("----in the click event----");
-    checkValid("name", "Name already exist, please choose another one", context);
-    checkValid("email", "Email already taken", context);
+    var context = this;
+
+    if ($('span').text() === "") {
+      $.ajax({
+        type: 'post',
+        url: '/user',
+        dataType: 'json',
+        data: $('#sign-up').serialize()
+      }).done(function() {
+        window.location = "/";
+      });
+    } else {
+      for (i = 0; i < 3 ; i++ ) {
+        $('span').fadeTo(500, 0).fadeTo(500, 1.0);
+      }
+    }
+  });
+
+  $('#sign-out').on('click', function(e){
+    e.preventDefault();
+    $.ajax({
+      type: 'delete',
+      url: '/session'
+    }).done(function(data){
+      console.log(data);
+      window.location = "/";
+    });
   });
 
 });

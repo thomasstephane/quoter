@@ -10,5 +10,8 @@ html {
   outline: 0;
   color: #411700;
   text-decoration: none;
+}
 
+span {
+  color: red;
 }
